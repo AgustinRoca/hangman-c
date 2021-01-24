@@ -9,12 +9,12 @@
 #define MAX_LENGTH 50
 #define MAX_LETTERS ('Z' - 'A' + 1)
 
-
 char * chooseRandomWord();
 void printWord(char * word, int * guessedLettersPositions);
 int guessChar(char guessingChar, char * word, int * guessedLettersPositions);
 void printHangman(int attempts);
 char getCharByStdin();
+void printLettersTried(char lettersTried[MAX_LETTERS], int totalLettersTried);
 
 int main() {
     char * word = chooseRandomWord();
@@ -31,15 +31,7 @@ int main() {
         printf("\n");
         printWord(word, guessedLettersPositions);
         printf("\n");
-        printf("Letters you tried:");
-        for (int i = 0; i < MAX_LETTERS && lettersTried[i]; i++)
-        {
-            printf(" %c", lettersTried[i]);
-        }
-        if(totalLettersTried == 0){
-            printf(" None");
-        }
-        printf("\n");
+        printLettersTried(lettersTried, totalLettersTried);
         
         char guessingChar;
         int alreadyTried;
@@ -54,12 +46,14 @@ int main() {
             }
         } while(alreadyTried);
         lettersTried[totalLettersTried++] = guessingChar;
+
         int guessed = guessChar(guessingChar, word, guessedLettersPositions);
         if(guessed == 0){
             attempts++;
         } else {
             totalGuessedLetters += guessed;
         }
+        
         printf("-------------------------------------\n");
     }
     if(attempts <= MAX_ATTEMPTS){
@@ -166,4 +160,16 @@ void printHangman(int attempts){
     printf("\n");
     printf("|\n");
     printf("+======\n");
+}
+
+void printLettersTried(char lettersTried[MAX_LETTERS], int totalLettersTried){
+    printf("Letters you tried:");
+        for (int i = 0; i < MAX_LETTERS && lettersTried[i]; i++)
+        {
+            printf(" %c", lettersTried[i]);
+        }
+        if(totalLettersTried == 0){
+            printf(" None");
+        }
+        printf("\n");
 }
